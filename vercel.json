@@ -1,12 +1,10 @@
 {
   "version": 2,
-  "builds": [
+  "outputDirectory": "dist/swag-food/browser",
+  "rewrites": [
     {
-      "src": "dist/swag-food/**",
-      "use": "@vercel/static"
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }
