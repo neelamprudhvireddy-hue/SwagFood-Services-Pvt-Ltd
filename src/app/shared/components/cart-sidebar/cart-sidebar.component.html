@@ -1,0 +1,34 @@
+<section class="cart-sidebar">
+  <div class="cart-sidebar__header">
+    <h4>Live Cart</h4>
+    <p *ngIf="(cartItems$ | async)?.length as count">{{ count }} items</p>
+  </div>
+
+  <div class="cart-sidebar__list" *ngIf="cartItems$ | async as items; else emptyCart">
+    <article class="cart-item" *ngFor="let item of items">
+      <img [src]="item.image" [alt]="item.name" loading="lazy" />
+      <div class="copy">
+        <p class="title">{{ item.name }}</p>
+        <p class="price">&#8377;{{ item.price }} | {{ item.isVeg ? 'Veg' : 'Non-veg' }}</p>
+        <div class="actions">
+          <button (click)="decrement(item.id, item.quantity)">-</button>
+          <span>{{ item.quantity }}</span>
+          <button (click)="increment(item.id, item.quantity)">+</button>
+          <button class="remove" (click)="remove(item.id)">Remove</button>
+        </div>
+      </div>
+    </article>
+  </div>
+
+  <ng-template #emptyCart>
+    <p class="empty-state">Your cart is waiting for something delicious.</p>
+  </ng-template>
+
+  <div class="cart-sidebar__footer">
+    <div>
+      <p>Total</p>
+      <h3>&#8377;{{ (total$ | async) || 0 }}</h3>
+    </div>
+    <button class="checkout-btn" (click)="checkout()">Checkout</button>
+  </div>
+</section>

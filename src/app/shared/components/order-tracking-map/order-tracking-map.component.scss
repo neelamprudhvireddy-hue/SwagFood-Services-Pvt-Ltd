@@ -1,0 +1,102 @@
+.map {
+  background: radial-gradient(circle at top, rgba(255, 138, 36, 0.18), rgba(5, 7, 15, 0.95));
+  border-radius: 1.5rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.map__grid {
+  height: 220px;
+  border-radius: 1rem;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map__route {
+  width: 90%;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.15);
+  position: relative;
+  border-radius: 999px;
+}
+
+.marker {
+  position: absolute;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: -0.35rem;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    opacity: 0.4;
+  }
+}
+
+.marker--restaurant {
+  left: 0;
+  background: #ff8a24;
+  color: #ff8a24;
+}
+
+.marker--driver {
+  left: 45%;
+  background: #00ffb3;
+  color: #00ffb3;
+}
+
+.marker--customer {
+  right: 0;
+  background: #ff4d8c;
+  color: #ff4d8c;
+}
+
+.map__legend {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+
+  .dot {
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 0.3rem;
+  }
+
+  .dot--restaurant {
+    background: #ff8a24;
+  }
+  .dot--driver {
+    background: #00ffb3;
+  }
+  .dot--customer {
+    background: #ff4d8c;
+  }
+}
+
+.map__status {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  .distance {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  .eta {
+    margin: 0;
+    opacity: 0.7;
+  }
+}
+

@@ -1,0 +1,36 @@
+﻿<section class="profile" *ngIf="user$ | async as user">
+  <div class="profile__card">
+    <img [src]="user.avatar" [alt]="user.name" />
+    <div>
+      <h1>{{ user.name }}</h1>
+      <p>{{ user.email }}</p>
+      <p>{{ user.phone }}</p>
+    </div>
+    <ul>
+      <li>
+        <p>Wallet balance</p>
+        <strong>&#8377;{{ user.walletBalance }}</strong>
+      </li>
+      <li>
+        <p>Loyalty points</p>
+        <strong>{{ user.loyaltyPoints }}</strong>
+      </li>
+      <li>
+        <p>Favorites</p>
+        <strong>{{ user.favorites.length }}</strong>
+      </li>
+    </ul>
+  </div>
+
+  <form (ngSubmit)="save()" [formGroup]="form">
+    <label>
+      Phone
+      <input type="tel" formControlName="phone" />
+    </label>
+    <label>
+      Address
+      <textarea rows="3" formControlName="address"></textarea>
+    </label>
+    <button type="submit">Save changes</button>
+  </form>
+</section>

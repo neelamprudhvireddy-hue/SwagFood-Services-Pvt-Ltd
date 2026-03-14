@@ -1,0 +1,19 @@
+﻿<section class="manager-panel" *ngIf="inventory$ | async as inventory; else loading">
+  <header>
+    <div>
+      <p class="eyebrow">Inventory</p>
+      <h1>Kitchen readiness</h1>
+    </div>
+    <button type="button">Sync vendors</button>
+  </header>
+
+  <div class="grid">
+    <article *ngFor="let item of inventory">
+      <h3>{{ item.restaurantName }}</h3>
+      <p>{{ item.skuCount }} menu items | {{ item.highDemand }} trending</p>
+    </article>
+  </div>
+</section>
+<ng-template #loading>
+  <p class="loading">Compiling inventory...</p>
+</ng-template>

@@ -1,0 +1,55 @@
+.filters {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.filters__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sort-pills {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+
+  button {
+    border-radius: 999px;
+    padding: 0.4rem 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+
+    &.active {
+      background: rgba(255, 77, 140, 0.15);
+      border-color: #ff4d8c;
+    }
+  }
+}
+
+.rating-filter {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  input {
+    accent-color: #ff4d8c;
+  }
+}
+
+.result-count {
+  opacity: 0.7;
+}
+
+.restaurants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+

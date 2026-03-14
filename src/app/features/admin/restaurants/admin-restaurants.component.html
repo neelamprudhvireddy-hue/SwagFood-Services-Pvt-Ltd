@@ -1,0 +1,35 @@
+﻿<section class="admin-section">
+  <header>
+    <div>
+      <p class="eyebrow">Partner Restaurants</p>
+      <h1>Manage restaurant partners</h1>
+    </div>
+    <button type="button">+ Add Restaurant</button>
+  </header>
+
+  <div class="table" *ngIf="restaurants$ | async as restaurants; else loading">
+    <div class="table__head">
+      <span>Name</span>
+      <span>Cuisines</span>
+      <span>Rating</span>
+      <span>Min order</span>
+      <span>Actions</span>
+    </div>
+    <div class="table__row" *ngFor="let restaurant of restaurants">
+      <span>
+        <strong>{{ restaurant.name }}</strong>
+        <small>{{ restaurant.address }}</small>
+      </span>
+      <span>{{ restaurant.cuisines.join(', ') }}</span>
+      <span>{{ restaurant.rating | number: '1.1-1' }}</span>
+      <span>{{ restaurant.costForTwo | currency: 'INR':'symbol':'1.0-0' }}</span>
+      <span class="actions">
+        <a [routerLink]="['/restaurants', restaurant.id]">View</a>
+        <a [routerLink]="['/menu', restaurant.id]">Menu</a>
+      </span>
+    </div>
+  </div>
+  <ng-template #loading>
+    <p class="loading">Loading restaurants...</p>
+  </ng-template>
+</section>

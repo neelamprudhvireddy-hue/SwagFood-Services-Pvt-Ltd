@@ -1,0 +1,76 @@
+.admin-analytics {
+  padding: 2rem;
+  border-radius: 16px;
+  background: #9a5e5e;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .eyebrow {
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.06em;
+      color: #94a3b8;
+      margin: 0;
+    }
+
+    h1 {
+      margin: 0.25rem 0 0;
+    }
+
+    button {
+      border-radius: 999px;
+      border: 1px solid #7082bf;
+      background: transparent;
+      padding: 0.5rem 1.25rem;
+      font-weight: 600;
+    }
+  }
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+
+  article {
+    padding: 1rem;
+    border-radius: 12px;
+    background: #f8fafc;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    .label {
+      margin: 0;
+      color: #94a3b8;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+    }
+
+    h2 {
+      margin: 0;
+    }
+
+    .trend {
+      font-size: 0.75rem;
+      color: #f97316;
+
+      &.positive {
+        color: #16a34a;
+      }
+    }
+  }
+}
+
+.chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}

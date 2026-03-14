@@ -1,0 +1,52 @@
+.admin-section {
+  padding: 2rem;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+
+  header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+
+    h1 {
+      margin: 0;
+    }
+  }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.menu-card {
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  h3 {
+    margin: 0 0 0.25rem;
+  }
+
+  p {
+    margin: 0;
+    color: #64748b;
+    font-size: 0.875rem;
+  }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.75rem;
+    font-weight: 600;
+  }
+}
+
+.loading {
+  color: #94a3b8;
+}

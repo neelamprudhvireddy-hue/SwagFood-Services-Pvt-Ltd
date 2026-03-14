@@ -1,0 +1,92 @@
+<section class="checkout">
+  <h1>Checkout</h1>
+  <div class="checkout__grid">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="field-pair">
+        <label>
+          Customer name
+          <input type="text" formControlName="customerName" placeholder="Full name" />
+          <small class="error" *ngIf="fieldInvalid('customerName')">
+            {{ errorText('customerName') }}
+          </small>
+        </label>
+        <label>
+          Phone number
+          <input type="tel" formControlName="phone" placeholder="9876543210" maxlength="10" />
+          <small class="error" *ngIf="fieldInvalid('phone')">
+            {{ errorText('phone') }}
+          </small>
+        </label>
+      </div>
+      <label>
+        Delivery address
+        <textarea formControlName="address" rows="3" placeholder="Street, flat number"></textarea>
+        <small class="error" *ngIf="fieldInvalid('address')">
+          {{ errorText('address') }}
+        </small>
+      </label>
+      <div class="field-pair">
+        <label>
+          City
+          <input type="text" formControlName="city" placeholder="Hyderabad" />
+          <small class="error" *ngIf="fieldInvalid('city')">
+            {{ errorText('city') }}
+          </small>
+        </label>
+        <label>
+          Pincode
+          <input type="text" formControlName="pincode" placeholder="500081" />
+          <small class="error" *ngIf="fieldInvalid('pincode')">
+            {{ errorText('pincode') }}
+          </small>
+        </label>
+      </div>
+      <label>
+        Instructions
+        <textarea formControlName="instructions" rows="2" placeholder="Landmark, delivery notes"></textarea>
+      </label>
+
+      <fieldset>
+        <legend>Payment</legend>
+        <label *ngFor="let method of paymentMethods">
+          <input type="radio" formControlName="paymentMethod" [value]="method.value" />
+          {{ method.label }}
+        </label>
+      </fieldset>
+
+      <button type="submit" [disabled]="form.invalid || loading">
+        {{ loading ? 'Processing...' : 'Place order' }}
+      </button>
+    </form>
+
+    <aside class="order-preview">
+      <h3>Order summary</h3>
+      <article *ngFor="let item of cartItems$ | async">
+        <p>{{ item.name }} x {{ item.quantity }}</p>
+        <span>&#8377;{{ item.price * item.quantity }}</span>
+      </article>
+      <div class="total">
+        <p>Subtotal</p>
+        <p>&#8377;{{ cartSubtotal$ | async }}</p>
+      </div>
+      <div class="total">
+        <p>Promo discount</p>
+        <p>-&#8377;{{ discount$ | async }}</p>
+      </div>
+      <div class="total">
+        <p>Delivery</p>
+        <p>&#8377;{{ deliveryFee }}</p>
+      </div>
+      <div class="total grand">
+        <p>Total</p>
+        <p>&#8377;{{ ((cartTotal$ | async) || 0) + deliveryFee }}</p>
+      </div>
+      <small class="promo-label" *ngIf="promoCode$ | async as code">Promo applied: {{ code }}</small>
+    </aside>
+  </div>
+</section>
+
+<app-modal [open]="!!confirmation" title="Order confirmed" (closed)="closeModal()">
+  <p>Your order {{ confirmation?.id }} is now {{ confirmation?.status }}.</p>
+  <p>Track updates inside the Orders tab.</p>
+</app-modal>

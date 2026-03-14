@@ -1,0 +1,58 @@
+﻿<section class="admin-analytics">
+  <header>
+    <div>
+      <p class="eyebrow">Insights</p>
+      <h1>Platform analytics</h1>
+    </div>
+    <button type="button">Export</button>
+  </header>
+
+  <div class="stats" *ngIf="metrics$ | async as metrics">
+    <article *ngFor="let metric of metrics">
+      <p class="label">{{ metric.label }}</p>
+      <h2>{{ metric.value }}</h2>
+      <span class="trend" [class.positive]="metric.trend && metric.trend > 0">
+        {{ metric.trend ? (metric.trend | number: '1.1-1') + '%' : '' }}
+      </span>
+    </article>
+  </div>
+
+  <div class="chart-grid">
+    <app-analytics-chart
+      title="Orders per day"
+      description="Last 7 days"
+      variant="line"
+      valueSuffix=""
+      [data]="(ordersPerDay$ | async) ?? []"
+    ></app-analytics-chart>
+
+    <app-analytics-chart
+      title="Monthly revenue"
+      description="Last 4 months"
+      variant="bar"
+      valuePrefix="&#8377;"
+      [data]="(revenuePerMonth$ | async) ?? []"
+    ></app-analytics-chart>
+
+    <app-analytics-chart
+      title="Top restaurants"
+      description="Orders volume"
+      variant="list"
+      [data]="(topRestaurants$ | async) ?? []"
+    ></app-analytics-chart>
+
+    <app-analytics-chart
+      title="Top menu items"
+      description="Weekly demand"
+      variant="list"
+      [data]="(topItems$ | async) ?? []"
+    ></app-analytics-chart>
+
+    <app-analytics-chart
+      title="Delivery performance"
+      description="Orders by stage"
+      variant="bar"
+      [data]="(deliveryPerformance$ | async) ?? []"
+    ></app-analytics-chart>
+  </div>
+</section>

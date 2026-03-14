@@ -1,0 +1,27 @@
+﻿<section class="admin-section" *ngIf="campaigns$ | async as campaigns; else loading">
+  <header>
+    <div>
+      <p class="eyebrow">Marketing Campaigns</p>
+      <h1>Engagement programs</h1>
+    </div>
+    <button type="button">Create campaign</button>
+  </header>
+
+  <div class="table">
+    <div class="table__head">
+      <span>Name</span>
+      <span>Audience</span>
+      <span>Budget</span>
+      <span>Status</span>
+    </div>
+    <div class="table__row" *ngFor="let campaign of campaigns">
+      <span>{{ campaign.name }}</span>
+      <span>{{ campaign.audience }}</span>
+      <span>&#8377;{{ campaign.budget | number: '1.0-0' }}</span>
+      <span class="status" [class.live]="campaign.status === 'Live'">{{ campaign.status }}</span>
+    </div>
+  </div>
+</section>
+<ng-template #loading>
+  <p class="loading">Loading campaigns...</p>
+</ng-template>

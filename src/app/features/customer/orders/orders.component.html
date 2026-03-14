@@ -1,0 +1,35 @@
+﻿<section class="orders">
+  <h1>Order history</h1>
+  <article class="order-card" *ngFor="let order of orders$ | async">
+    <header>
+      <div>
+        <p class="id">#{{ order.id }}</p>
+        <p class="restaurant">{{ order.restaurantName }}</p>
+      </div>
+      <span class="status">{{ statusLabel(order.status) }}</span>
+    </header>
+    <p class="timestamp">{{ order.createdAt | date: 'MMM d, h:mm a' }}</p>
+    <app-order-tracking-map
+      [restaurant]="order.restaurantLocation"
+      [customer]="order.deliveryLocation"
+      [driver]="order.driverLocation"
+      [distanceText]="order.distanceText || 'Tracking...'"
+      [etaMinutes]="order.etaMinutes || 0"
+    ></app-order-tracking-map>
+    <a class="track-link" [routerLink]="['/order-tracking', order.id]">Open live tracking</a>
+    <ul class="timeline">
+      <li *ngFor="let step of timeline(order)" [class.done]="step.completed">
+        {{ step.label }}
+      </li>
+    </ul>
+    <ul class="items">
+      <li *ngFor="let item of order.items">
+        {{ item.name }} x {{ item.quantity }}
+      </li>
+    </ul>
+    <footer>
+      <p>Total</p>
+      <strong>&#8377;{{ order.totalAmount }}</strong>
+    </footer>
+  </article>
+</section>

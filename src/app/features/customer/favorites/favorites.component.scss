@@ -1,0 +1,12 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  opacity: 0.7;
+}
+

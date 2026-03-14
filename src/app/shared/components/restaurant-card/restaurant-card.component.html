@@ -1,0 +1,25 @@
+<a class="restaurant-card" [routerLink]="['/restaurants', restaurant.id]">
+  <img [src]="restaurant.image" [alt]="restaurant.name" loading="lazy" />
+  <button class="favorite" (click)="toggleFavorite($event)">
+    <span class="material-symbols-rounded" [class.active]="restaurant.isFavorite">
+      favorite
+    </span>
+  </button>
+  <div class="restaurant-card__body">
+    <div class="restaurant-card__headline">
+      <div>
+        <h3>{{ restaurant.name }}</h3>
+        <p>{{ restaurant.cuisines.join(' | ') }}</p>
+      </div>
+      <app-rating-stars [rating]="restaurant.rating"></app-rating-stars>
+    </div>
+    <div class="restaurant-card__meta">
+      <span>{{ restaurant.deliveryTime }}</span>
+      <span>&#8377;{{ restaurant.costForTwo }} for two</span>
+      <span>{{ restaurant.distanceKm }} km</span>
+    </div>
+    <div class="restaurant-card__tags">
+      <span *ngFor="let tag of restaurant.tags">{{ tag }}</span>
+    </div>
+  </div>
+</a>

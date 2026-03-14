@@ -1,0 +1,44 @@
+<section class="chart" [ngClass]="variant">
+  <header>
+    <div>
+      <p class="eyebrow">{{ description }}</p>
+      <h3>{{ title }}</h3>
+    </div>
+  </header>
+
+  <ng-container [ngSwitch]="variant">
+    <div *ngSwitchCase="'line'" class="chart__line">
+      <svg viewBox="0 0 100 60" preserveAspectRatio="none">
+        <polyline [attr.points]="linePoints()" />
+      </svg>
+      <ul>
+        <li *ngFor="let point of safeData">
+          <span>{{ point.label }}</span>
+          <strong>{{ formatValue(point.value) }}</strong>
+        </li>
+      </ul>
+    </div>
+
+    <div *ngSwitchCase="'bar'" class="chart__bars">
+      <div class="bar" *ngFor="let point of safeData">
+        <span>{{ point.label }}</span>
+        <div class="track">
+          <div class="fill" [style.width]="barWidth(point)"></div>
+        </div>
+        <strong>{{ formatValue(point.value) }}</strong>
+      </div>
+    </div>
+
+    <ul *ngSwitchCase="'list'" class="chart__list">
+      <li *ngFor="let point of safeData">
+        <div>
+          <span class="label">{{ point.label }}</span>
+          <small *ngIf="point.subtitle">{{ point.subtitle }}</small>
+        </div>
+        <div class="value">
+          <strong>{{ formatValue(point.value) }}</strong>
+        </div>
+      </li>
+    </ul>
+  </ng-container>
+</section>

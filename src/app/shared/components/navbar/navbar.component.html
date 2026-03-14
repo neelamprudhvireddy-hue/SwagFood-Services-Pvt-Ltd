@@ -1,0 +1,60 @@
+﻿<nav class="navbar" [class.navbar--transparent]="transparent">
+  <div class="navbar__brand">
+    <a routerLink="/home" class="navbar__logo">
+      <span class="dot dot--orange"></span>
+      <span class="dot dot--pink"></span>
+      <span class="navbar__title">SwagFood</span>
+    </a>
+    <div class="navbar__location">
+      <span class="material-symbols-outlined">my_location</span>
+      <div>
+        <p class="label">Delivering to</p>
+        <p class="value">Hitech City, Hyderabad</p>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="user$ | async as user; else guestNav">
+    <div class="navbar__links">
+      <a
+        *ngFor="let link of navLinks(user.role)"
+        routerLinkActive="active"
+        [routerLink]="link.path"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        {{ link.label }}
+      </a>
+    </div>
+  </ng-container>
+  <ng-template #guestNav>
+    <div class="navbar__links">
+      <a
+        *ngFor="let link of navLinks(null)"
+        routerLinkActive="active"
+        [routerLink]="link.path"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        {{ link.label }}
+      </a>
+    </div>
+  </ng-template>
+
+  <div class="navbar__actions">
+    <a routerLink="/cart" class="cart-chip">
+      <span class="material-symbols-rounded">shopping_bag</span>
+      <span>Cart</span>
+      <small class="pill" *ngIf="cartCount$ | async as count">{{ count }}</small>
+    </a>
+    <ng-container *ngIf="user$ | async as user; else loginCta">
+      <img [src]="user.avatar" [alt]="user.name" class="avatar" />
+      <div class="user-meta">
+        <p class="name">{{ user.name }}</p>
+        <p class="wallet">&#8377;{{ user.walletBalance }} wallet</p>
+      </div>
+      <button type="button" class="logout-btn" (click)="logout()">Logout</button>
+    </ng-container>
+    <ng-template #loginCta>
+      <a routerLink="/login" class="login-btn">Login</a>
+    </ng-template>
+  </div>
+</nav>

@@ -1,0 +1,27 @@
+﻿<ng-container *ngIf="order$ | async as order; else empty">
+  <section class="order-tracking">
+    <h1>Live Tracking</h1>
+    <app-order-tracking-map
+      [restaurant]="order.restaurantLocation"
+      [customer]="order.deliveryLocation"
+      [driver]="order.driverLocation"
+      [distanceText]="order.distanceText || 'On the way'"
+      [etaMinutes]="order.etaMinutes || 0"
+    ></app-order-tracking-map>
+    <div class="driver-card">
+      <img [src]="order.driverAvatar" [alt]="order.driverName" />
+      <div>
+        <p class="driver-name">{{ order.driverName }}</p>
+        <p class="driver-meta">Call {{ order.driverPhone }}</p>
+      </div>
+    </div>
+    <ul class="timeline">
+      <li *ngFor="let step of steps(order.status)" [class.done]="step.completed">
+        {{ step.label }}
+      </li>
+    </ul>
+  </section>
+</ng-container>
+<ng-template #empty>
+  <p>No active orders to track.</p>
+</ng-template>

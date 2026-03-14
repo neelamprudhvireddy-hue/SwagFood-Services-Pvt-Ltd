@@ -1,0 +1,37 @@
+﻿<ng-container *ngIf="restaurant$ | async as restaurant; else notFound">
+  <section class="detail-hero">
+    <img [src]="restaurant.image" [alt]="restaurant.name" />
+    <div class="detail-hero__copy">
+      <p class="badge" *ngIf="restaurant.promoted">Promoted partner</p>
+      <h1>{{ restaurant.name }}</h1>
+      <p>{{ restaurant.description }}</p>
+      <app-rating-stars [rating]="restaurant.rating"></app-rating-stars>
+      <ul>
+        <li>{{ restaurant.deliveryTime }} delivery</li>
+        <li>&#8377;{{ restaurant.costForTwo }} for two</li>
+        <li>{{ restaurant.reviewCount }}+ reviews</li>
+      </ul>
+      <div class="cta">
+        <a class="primary" [routerLink]="['/menu', restaurant.id]">Browse menu</a>
+        <a class="secondary" routerLink="/restaurants">Back to list</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section__header">
+      <h2>Signature picks</h2>
+      <a [routerLink]="['/menu', restaurant.id]">View complete menu</a>
+    </div>
+    <div class="grid grid--menu">
+      <app-menu-item-card
+        *ngFor="let dish of signatureMenu$ | async"
+        [menuItem]="dish"
+      ></app-menu-item-card>
+    </div>
+  </section>
+</ng-container>
+
+<ng-template #notFound>
+  <p>Restaurant not found.</p>
+</ng-template>

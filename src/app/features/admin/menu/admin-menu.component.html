@@ -1,0 +1,25 @@
+﻿<section class="admin-section">
+  <header>
+    <div>
+      <p class="eyebrow">Menu Management</p>
+      <h1>Control menu catalog</h1>
+    </div>
+    <button type="button">+ Add Item</button>
+  </header>
+
+  <div class="grid" *ngIf="menuItems$ | async as items; else loading">
+    <article class="menu-card" *ngFor="let item of items">
+      <div>
+        <h3>{{ item.name }}</h3>
+        <p>{{ item.description }}</p>
+      </div>
+      <footer>
+        <span>{{ item.price | currency: 'INR':'symbol':'1.0-0' }}</span>
+        <small>{{ item.category }}</small>
+      </footer>
+    </article>
+  </div>
+  <ng-template #loading>
+    <p class="loading">Loading menu items...</p>
+  </ng-template>
+</section>

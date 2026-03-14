@@ -1,0 +1,42 @@
+<ng-container *ngIf="restaurant$ | async as restaurant; else loading">
+  <section class="menu-hero">
+    <div>
+      <p class="eyebrow">Menu</p>
+      <h1>{{ restaurant.name }}</h1>
+      <p>{{ restaurant.description }}</p>
+    </div>
+    <div class="filters">
+      <div class="veg-toggle">
+        <label>
+          <input
+            type="checkbox"
+            [checked]="filters$.value.vegOnly"
+            (change)="toggleVeg($any($event.target).checked)"
+          />
+          Veg only
+        </label>
+      </div>
+      <div class="category-chips">
+        <button
+          type="button"
+          *ngFor="let category of (categories$ | async) || []"
+          [class.active]="filters$.value.category === category"
+          (click)="selectCategory(category)"
+        >
+          {{ category }}
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <div class="menu-grid">
+    <app-menu-item-card
+      *ngFor="let menuItem of menuItems$ | async"
+      [menuItem]="menuItem"
+    ></app-menu-item-card>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <app-loading-spinner label="Loading menu"></app-loading-spinner>
+</ng-template>

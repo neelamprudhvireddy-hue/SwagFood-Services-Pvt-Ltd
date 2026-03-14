@@ -1,0 +1,23 @@
+﻿<section class="worker-dashboard">
+  <header>
+    <h1>Runner Tasks</h1>
+    <p>Update order lifecycle in real-time.</p>
+  </header>
+
+  <div class="task-list">
+    <article *ngFor="let order of orders$ | async">
+      <p class="id">#{{ order.id }}</p>
+      <p><strong>Restaurant:</strong> {{ order.restaurantName }}</p>
+      <p><strong>Status:</strong> {{ statusLabel(order.status) }}</p>
+      <div class="actions">
+        <button
+          *ngFor="let status of nextStatuses(order.status) | slice:0:3"
+          type="button"
+          (click)="updateStatus(order.id, status)"
+        >
+          {{ statusLabel(status) }}
+        </button>
+      </div>
+    </article>
+  </div>
+</section>

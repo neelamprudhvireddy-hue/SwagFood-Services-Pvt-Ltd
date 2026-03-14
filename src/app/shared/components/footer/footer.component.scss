@@ -1,0 +1,38 @@
+.footer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding: 2.5rem;
+  margin-top: 2rem;
+  background: #0f111a;
+  color: rgba(255, 255, 255, 0.85);
+
+  h4 {
+    margin: 0 0 0.5rem;
+    font-size: 1.25rem;
+  }
+
+  p {
+    margin: 0.1rem 0;
+    opacity: 0.8;
+  }
+}
+
+.footer__links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+
+  a {
+    color: rgba(255, 255, 255, 0.75);
+    text-decoration: none;
+  }
+}
+
+.footer__meta {
+  text-align: right;
+  @media (max-width: 768px) {
+    text-align: left;
+  }
+}
+

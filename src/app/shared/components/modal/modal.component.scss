@@ -1,0 +1,52 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  z-index: 100;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 8, 20, 0.75);
+}
+
+.modal__content {
+  position: relative;
+  width: min(480px, 90vw);
+  background: #0f111a;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  animation: pop 0.25s ease;
+
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    h3 {
+      margin: 0;
+    }
+
+    button {
+      border: none;
+      background: transparent;
+      color: inherit;
+      cursor: pointer;
+    }
+  }
+}
+
+.modal__body {
+  margin-top: 1rem;
+}
+
+@keyframes pop {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+}
+

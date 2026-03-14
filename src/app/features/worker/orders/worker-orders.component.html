@@ -1,0 +1,26 @@
+﻿<section class="worker-section">
+  <header>
+    <h1>Order queue</h1>
+    <p>Update live pipeline</p>
+  </header>
+
+  <div class="list" *ngIf="orders$ | async as orders">
+    <article *ngFor="let order of orders">
+      <div>
+        <h3>{{ order.restaurantName }}</h3>
+        <p>Order {{ order.id }} | &#8377;{{ order.totalAmount | number: '1.0-0' }}</p>
+        <span class="status">{{ statusLabel(order.status) }}</span>
+      </div>
+      <div class="actions">
+        <button
+          type="button"
+          *ngFor="let next of nextStatuses(order.status) | slice:0:4"
+          (click)="setStatus(order.id, next)"
+        >
+          Mark {{ statusLabel(next) }}
+        </button>
+        <span class="done" *ngIf="nextStatuses(order.status).length === 0">Complete</span>
+      </div>
+    </article>
+  </div>
+</section>

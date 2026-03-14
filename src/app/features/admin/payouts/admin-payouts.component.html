@@ -1,0 +1,25 @@
+﻿<section class="admin-section" *ngIf="payouts$ | async as payouts; else loading">
+  <header>
+    <div>
+      <p class="eyebrow">Payout Center</p>
+      <h1>Restaurant settlements</h1>
+    </div>
+    <button type="button">Download CSV</button>
+  </header>
+
+  <div class="table">
+    <div class="table__head">
+      <span>Restaurant</span>
+      <span>Orders</span>
+      <span>Amount due</span>
+    </div>
+    <div class="table__row" *ngFor="let payout of payouts">
+      <span>{{ payout.restaurantName }}</span>
+      <span>{{ payout.orders }}</span>
+      <span>{{ payout.amountDue | currency: 'INR':'symbol':'1.0-0' }}</span>
+    </div>
+  </div>
+</section>
+<ng-template #loading>
+  <p class="loading">Loading payouts...</p>
+</ng-template>

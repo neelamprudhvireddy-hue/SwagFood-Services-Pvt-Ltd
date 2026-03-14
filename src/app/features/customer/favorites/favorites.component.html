@@ -1,0 +1,13 @@
+<section class="favorites">
+  <h1>Favorites</h1>
+  <div class="grid" *ngIf="favorites$ | async as favorites">
+    <p *ngIf="favorites.length === 0" class="empty">
+      Save restaurants you love by tapping the heart icon.
+    </p>
+    <app-restaurant-card
+      *ngFor="let restaurant of favorites"
+      [restaurant]="restaurant"
+    ></app-restaurant-card>
+  </div>
+</section>
+

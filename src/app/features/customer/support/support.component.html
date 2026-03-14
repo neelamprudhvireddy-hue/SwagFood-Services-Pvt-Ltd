@@ -1,0 +1,142 @@
+<section class="support">
+  <div class="support__hero">
+    <div>
+      <p class="eyebrow">24x7 concierge</p>
+      <h1>We're tracking every order with you</h1>
+      <p>Live chat, contextual FAQs, proactive escalations & priority calling - all in one desk.</p>
+      <div class="support__cta">
+        <button type="button" (click)="prefillContact('late', 'chat')">
+          <span class="material-symbols-rounded">schedule</span>
+          Late delivery chat
+        </button>
+        <button type="button" (click)="prefillContact('payment', 'email')">
+          <span class="material-symbols-rounded">currency_rupee</span>
+          Payment help
+        </button>
+        <button type="button" (click)="prefillContact('account', 'call')">
+          <span class="material-symbols-rounded">support_agent</span>
+          Request a call
+        </button>
+      </div>
+    </div>
+    <div class="support__stats" *ngIf="contactReasons$ | async as reasons">
+      <div *ngFor="let reason of reasons">
+        <p class="label">{{ reason.label }}</p>
+        <p class="sla">{{ reason.sla }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="support__grid">
+    <article class="panel panel--chat">
+      <header>
+        <h2>Live chat</h2>
+        <p>Agents typically reply in 30 seconds</p>
+      </header>
+      <div class="chat__messages">
+        <div *ngFor="let message of messages" [class.agent]="message.from === 'agent'">
+          <p>{{ message.text }}</p>
+          <small>{{ message.timestamp | date: 'shortTime' }}</small>
+        </div>
+      </div>
+      <form [formGroup]="chatForm" (ngSubmit)="sendChat()" class="chat__form">
+        <input type="text" placeholder="Type a message" formControlName="message" />
+        <button type="submit" [disabled]="chatForm.invalid || sending">
+          {{ sending ? 'Sending...' : 'Send' }}
+        </button>
+      </form>
+    </article>
+
+    <article class="panel panel--faq">
+      <header>
+        <h2>Quick FAQs</h2>
+        <p>Instant answers for the most common queries</p>
+      </header>
+      <div class="faq">
+        <details *ngFor="let item of faqs$ | async">
+          <summary>{{ item.question }}</summary>
+          <p>{{ item.answer }}</p>
+        </details>
+      </div>
+    </article>
+
+    <form class="panel panel--issue" [formGroup]="issueForm" (ngSubmit)="reportIssue()">
+      <header>
+        <h2>Report an order issue</h2>
+        <p>Escalate with the restaurant partner instantly</p>
+      </header>
+      <label>
+        Order ID
+        <input type="text" formControlName="orderId" placeholder="order-2482" />
+        <small class="error" *ngIf="fieldInvalid('issue', 'orderId')">
+          {{ errorCopy('issue', 'orderId') }}
+        </small>
+      </label>
+      <label>
+        Describe issue
+        <textarea rows="3" formControlName="description" placeholder="Tell us what happened"></textarea>
+        <small class="error" *ngIf="fieldInvalid('issue', 'description')">
+          {{ errorCopy('issue', 'description') }}
+        </small>
+      </label>
+      <button type="submit" [disabled]="issueForm.invalid">Submit ticket</button>
+    </form>
+
+    <form class="panel panel--contact" [formGroup]="contactForm" (ngSubmit)="contactSupport()">
+      <header>
+        <h2>Contact support</h2>
+        <p>Raise a ticket. We'll assign a specialist.</p>
+      </header>
+      <div class="field-pair">
+        <label>
+          Full name
+          <input type="text" formControlName="name" placeholder="Your name" />
+          <small class="error" *ngIf="fieldInvalid('contact', 'name')">
+            {{ errorCopy('contact', 'name') }}
+          </small>
+        </label>
+        <label>
+          Email
+          <input type="email" formControlName="email" placeholder="you@email.com" />
+          <small class="error" *ngIf="fieldInvalid('contact', 'email')">
+            {{ errorCopy('contact', 'email') }}
+          </small>
+        </label>
+      </div>
+      <label>
+        Topic
+        <select formControlName="topic">
+          <option value="" disabled>Select a topic</option>
+          <option *ngFor="let reason of contactReasons$ | async" [value]="reason.value">
+            {{ reason.label }}
+          </option>
+        </select>
+        <small class="error" *ngIf="fieldInvalid('contact', 'topic')">
+          {{ errorCopy('contact', 'topic') }}
+        </small>
+      </label>
+      <label class="radio-group">
+        Preferred channel
+        <div>
+          <label>
+            <input type="radio" value="chat" formControlName="channel" /> Chat
+          </label>
+          <label>
+            <input type="radio" value="call" formControlName="channel" /> Call
+          </label>
+          <label>
+            <input type="radio" value="email" formControlName="channel" /> Email
+          </label>
+        </div>
+      </label>
+      <label>
+        Details
+        <textarea rows="3" formControlName="message" placeholder="Share details"></textarea>
+        <small class="error" *ngIf="fieldInvalid('contact', 'message')">
+          {{ errorCopy('contact', 'message') }}
+        </small>
+      </label>
+      <button type="submit" [disabled]="contactForm.invalid">Create ticket</button>
+    </form>
+  </div>
+</section>

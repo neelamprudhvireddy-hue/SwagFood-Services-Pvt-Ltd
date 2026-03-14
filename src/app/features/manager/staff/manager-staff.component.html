@@ -1,0 +1,22 @@
+<section class="manager-section" *ngIf="staff$ | async as staff; else loading">
+  <header>
+    <h1>Staff roster</h1>
+    <button type="button">Assign shift</button>
+  </header>
+
+  <div class="list">
+    <article *ngFor="let member of staff">
+      <div>
+        <h3>{{ member.name }}</h3>
+        <p>{{ member.role }}</p>
+      </div>
+      <div class="meta">
+        <span>{{ member.shift }}</span>
+        <span [class.active]="member.status === 'Active'">{{ member.status }}</span>
+      </div>
+    </article>
+  </div>
+</section>
+<ng-template #loading>
+  <p class="loading">Syncing staff...</p>
+</ng-template>

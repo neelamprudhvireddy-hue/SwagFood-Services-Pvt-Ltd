@@ -1,0 +1,15 @@
+<div class="modal" *ngIf="open">
+  <div class="modal__backdrop" (click)="close()"></div>
+  <div class="modal__content">
+    <header>
+      <h3>{{ title }}</h3>
+      <button type="button" (click)="close()" aria-label="Close modal">
+        <span class="material-symbols-rounded">close</span>
+      </button>
+    </header>
+    <div class="modal__body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
+

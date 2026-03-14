@@ -1,0 +1,13 @@
+<section class="manager-dashboard">
+  <header>
+    <h1>Manager Command Center</h1>
+    <p>Monitor inventory, kitchen efficiency, and live orders.</p>
+  </header>
+  <div class="grid">
+    <article *ngFor="let card of (cards$ | async) ?? []">
+      <p class="value">{{ card.value }}</p>
+      <p class="title">{{ card.label }}</p>
+      <small>{{ card.hint }}</small>
+    </article>
+  </div>
+</section>

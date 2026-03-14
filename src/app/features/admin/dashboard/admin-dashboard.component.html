@@ -1,0 +1,21 @@
+<section class="dashboard">
+  <header>
+    <h1>Admin Control Center</h1>
+    <p>Monitor marketplace health, payouts, and operations.</p>
+  </header>
+
+  <div class="metrics">
+    <article *ngFor="let metric of (metrics$ | async) ?? []">
+      <p class="value">{{ metric.value }}</p>
+      <p class="label">{{ metric.label }}</p>
+    </article>
+  </div>
+
+  <div class="cards">
+    <article *ngFor="let link of (quickLinks$ | async) ?? []">
+      <h3>{{ link.label }}</h3>
+      <p>{{ link.hint }}</p>
+      <button type="button" (click)="open(link.path)">Open</button>
+    </article>
+  </div>
+</section>

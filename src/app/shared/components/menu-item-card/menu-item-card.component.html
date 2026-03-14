@@ -1,0 +1,18 @@
+<div class="menu-item-card">
+  <div class="menu-item-card__copy">
+    <div class="menu-item-card__title">
+      <span class="veg-pill" [class.veg-pill--veg]="menuItem.isVeg"></span>
+      <h4>{{ menuItem.name }}</h4>
+    </div>
+    <p>{{ menuItem.description }}</p>
+    <div class="menu-item-card__meta">
+      <span>&#8377;{{ menuItem.price }}</span>
+      <span>Spice {{ menuItem.spiceLevel }}/3</span>
+      <span>&#9733; {{ menuItem.rating }}</span>
+    </div>
+  </div>
+  <div class="menu-item-card__visual">
+    <img [src]="menuItem.image" [alt]="menuItem.name" loading="lazy" />
+    <button class="add-btn" type="button" (click)="addToCart()">Add</button>
+  </div>
+</div>

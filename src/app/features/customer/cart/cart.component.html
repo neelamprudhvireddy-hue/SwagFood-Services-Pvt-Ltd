@@ -1,0 +1,66 @@
+﻿<section class="cart-page">
+  <h1>Cart</h1>
+  <div class="cart-layout">
+    <div class="cart-list">
+      <article class="cart-row" *ngFor="let item of items$ | async">
+        <img [src]="item.image" [alt]="item.name" />
+        <div class="copy">
+          <h3>{{ item.name }}</h3>
+          <p>&#8377;{{ item.price }} | {{ item.isVeg ? 'Veg' : 'Non-veg' }}</p>
+          <div class="qty">
+            <button type="button" (click)="decrement(item.id, item.quantity)">-</button>
+            <span>{{ item.quantity }}</span>
+            <button type="button" (click)="increment(item.id, item.quantity)">+</button>
+          </div>
+          <button type="button" class="remove" (click)="remove(item.id)">Remove</button>
+        </div>
+        <p class="line-total">&#8377;{{ item.price * item.quantity }}</p>
+      </article>
+      <p *ngIf="(items$ | async)?.length === 0" class="empty">
+        Cart is empty. Add something tasty!
+      </p>
+    </div>
+
+    <aside class="cart-summary">
+      <h3>Summary</h3>
+
+      <form class="promo" [formGroup]="promoForm" (ngSubmit)="applyPromo()">
+        <input type="text" placeholder="Promo code" formControlName="code" />
+        <button type="submit">Apply</button>
+        <button type="button" class="clear" (click)="clearPromo()" *ngIf="(promoCode$ | async)">
+          Clear
+        </button>
+      </form>
+      <ng-container *ngIf="promoStatus$ | async as status">
+        <p
+          class="promo-status"
+          *ngIf="status.message"
+          [class.success]="status.state === 'success'"
+          [class.error]="status.state === 'error'"
+        >
+          {{ status.message }}
+        </p>
+      </ng-container>
+
+      <div>
+        <p>Subtotal</p>
+        <p>&#8377;{{ (subtotal$ | async) || 0 }}</p>
+      </div>
+      <div>
+        <p>Promo discount</p>
+        <p class="discount">-&#8377;{{ (discount$ | async) || 0 }}</p>
+      </div>
+      <div>
+        <p>Delivery</p>
+        <p>&#8377;{{ deliveryFee }}</p>
+      </div>
+      <div class="grand">
+        <p>Payable</p>
+        <p>&#8377;{{ ((total$ | async) || 0) + deliveryFee }}</p>
+      </div>
+      <button type="button" (click)="checkout()" [disabled]="((items$ | async)?.length || 0) === 0">
+        Proceed to checkout
+      </button>
+    </aside>
+  </div>
+</section>

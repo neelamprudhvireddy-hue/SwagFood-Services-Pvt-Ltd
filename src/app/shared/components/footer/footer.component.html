@@ -1,0 +1,13 @@
+<footer class="footer">
+  <div>
+    <h4>SwagFood</h4>
+    <p>Delivering happiness across Hyderabad since 2020.</p>
+  </div>
+  <div class="footer__links">
+    <a *ngFor="let link of links" [routerLink]="link.path">{{ link.label }}</a>
+  </div>
+  <div class="footer__meta">
+    <p>&copy; {{ currentYear }} SwagFood Technologies Pvt Ltd.</p>
+    <p>Crafted with love for quick bites.</p>
+  </div>
+</footer>

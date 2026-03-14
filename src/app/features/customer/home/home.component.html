@@ -1,0 +1,70 @@
+<section class="hero">
+  <div class="hero__copy">
+    <p class="eyebrow">Hyderabad's fastest delivery platform</p>
+    <h1>Order bold flavors in <span>30 minutes</span></h1>
+    <p class="subtitle">
+      Fresh meals, curated collections, and chef specials delivered wherever you are.
+    </p>
+    <app-search-bar (search)="handleSearch($event)"></app-search-bar>
+    <div class="hero__metrics" *ngIf="metrics$ | async as metrics; else metricsSkeleton">
+      <div *ngFor="let metric of metrics">
+        <p class="value">{{ metric.value }}</p>
+        <p class="label">{{ metric.label }}</p>
+      </div>
+    </div>
+    <ng-template #metricsSkeleton>
+      <app-skeleton-loader [lines]="3" [height]="54"></app-skeleton-loader>
+    </ng-template>
+  </div>
+  <div class="hero__visual">
+    <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80" alt="Food" />
+  </div>
+</section>
+
+<section class="section">
+  <div class="section__header">
+    <h2>Promoted picks</h2>
+    <p>Hand-picked restaurants with stellar reviews</p>
+  </div>
+  <ng-container *ngIf="featuredRestaurants$ | async as featured; else restaurantsSkeleton">
+    <div class="grid">
+      <app-restaurant-card
+        *ngFor="let restaurant of featured"
+        [restaurant]="restaurant"
+      ></app-restaurant-card>
+    </div>
+  </ng-container>
+</section>
+
+<section class="section">
+  <div class="section__header">
+    <h2>Trending dishes</h2>
+    <p>Chef specials the city can't stop ordering this week</p>
+  </div>
+  <ng-container *ngIf="trendingDishes$ | async as dishes; else dishesSkeleton">
+    <div class="grid grid--menu">
+      <app-menu-item-card
+        *ngFor="let dish of dishes"
+        [menuItem]="dish"
+      ></app-menu-item-card>
+    </div>
+  </ng-container>
+</section>
+
+<ng-template #restaurantsSkeleton>
+  <div class="grid">
+    <app-skeleton-loader [lines]="1" [height]="260"></app-skeleton-loader>
+    <app-skeleton-loader [lines]="1" [height]="260"></app-skeleton-loader>
+    <app-skeleton-loader [lines]="1" [height]="260"></app-skeleton-loader>
+    <app-skeleton-loader [lines]="1" [height]="260"></app-skeleton-loader>
+  </div>
+</ng-template>
+
+<ng-template #dishesSkeleton>
+  <div class="grid grid--menu">
+    <app-skeleton-loader [lines]="1" [height]="200"></app-skeleton-loader>
+    <app-skeleton-loader [lines]="1" [height]="200"></app-skeleton-loader>
+    <app-skeleton-loader [lines]="1" [height]="200"></app-skeleton-loader>
+    <app-skeleton-loader [lines]="1" [height]="200"></app-skeleton-loader>
+  </div>
+</ng-template>

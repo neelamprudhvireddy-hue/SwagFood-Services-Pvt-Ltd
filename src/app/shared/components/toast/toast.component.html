@@ -1,0 +1,14 @@
+<div class="toast-stack">
+  <div
+    class="toast"
+    *ngFor="let toast of toasts"
+    [ngClass]="['toast--' + toast.tone]"
+    (click)="dismiss(toast.id)"
+  >
+    <span class="material-symbols-rounded">{{ toast.icon }}</span>
+    <div>
+      <p>{{ toast.message }}</p>
+      <small *ngIf="toast.meta?.['orderId']">#{{ toast.meta?.['orderId'] }}</small>
+    </div>
+  </div>
+</div>

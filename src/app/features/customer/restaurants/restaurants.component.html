@@ -1,0 +1,53 @@
+<section class="filters">
+  <app-search-bar (search)="handleSearch($event)"></app-search-bar>
+
+  <div class="filters__row">
+    <div class="sort-pills">
+      <button
+        *ngFor="let option of sortOptions"
+        type="button"
+        [class.active]="filters$.value.sortBy === option.value"
+        (click)="updateSort(option.value)"
+      >
+        {{ option.label }}
+      </button>
+    </div>
+    <div class="rating-filter">
+      <label>Min rating</label>
+      <input
+        type="range"
+        min="0"
+        max="5"
+        step="0.5"
+        [value]="minRating"
+        (input)="updateRating($any($event.target).valueAsNumber)"
+      />
+      <span>{{ minRating }}</span>
+    </div>
+  </div>
+
+  <app-cuisine-filter
+    [cuisines]="(cuisines$ | async) || []"
+    [selected]="filters$.value.cuisines || []"
+    (selectionChange)="handleCuisineChange($event)"
+  ></app-cuisine-filter>
+</section>
+
+<ng-container *ngIf="restaurants$ | async as restaurants; else loading">
+  <p class="result-count">{{ restaurants.length }} restaurants</p>
+  <div class="restaurants-grid">
+    <app-restaurant-card
+      *ngFor="let restaurant of restaurants"
+      [restaurant]="restaurant"
+    ></app-restaurant-card>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="restaurants-grid">
+    <app-skeleton-loader [lines]="1" [height]="280"></app-skeleton-loader>
+    <app-skeleton-loader [lines]="1" [height]="280"></app-skeleton-loader>
+    <app-skeleton-loader [lines]="1" [height]="280"></app-skeleton-loader>
+    <app-skeleton-loader [lines]="1" [height]="280"></app-skeleton-loader>
+  </div>
+</ng-template>

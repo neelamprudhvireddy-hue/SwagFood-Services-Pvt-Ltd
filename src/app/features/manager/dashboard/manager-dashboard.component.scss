@@ -1,0 +1,29 @@
+.manager-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+
+  article {
+    padding: 1rem;
+    border-radius: 1rem;
+    background: #0f111a;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .value {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+  }
+
+  .title {
+    margin: 0.2rem 0;
+  }
+}
+

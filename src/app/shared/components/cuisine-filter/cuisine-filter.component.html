@@ -1,0 +1,11 @@
+<div class="cuisine-filter">
+  <button
+    type="button"
+    *ngFor="let cuisine of cuisines"
+    [ngClass]="{ active: selected.includes(cuisine) }"
+    (click)="toggleCuisine(cuisine)"
+  >
+    {{ cuisine }}
+  </button>
+</div>
+
