@@ -44,7 +44,7 @@ export class LoginComponent {
       },
       error: (err) => {
         this.loading = false;
-        this.error = err.message ?? 'Unable to login. Please try again.';
+        this.error = err.message ?? 'Unable to login now. Please try again.';
       },
     });
   }
