@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
 import { delay, tap } from 'rxjs/operators';
 import { User, UserRole } from '@models/user.model';
 import { mockUsers } from '@core/data/mock-users';
-
+import { HttpClient } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
@@ -23,7 +23,7 @@ export class AuthService {
 
   readonly user$ = this.userSubject.asObservable();
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.hydrateFromStorage();
   }
 
@@ -31,20 +31,36 @@ export class AuthService {
     return this.userSubject.value;
   }
 
-  login(email: string, password: string): Observable<User> {
-    const storedPassword = this.credentialMap[email];
-    const profile = this.usersByEmail.get(email);
-    if (!profile || storedPassword !== password) {
-      return throwError(() => new Error('Invalid email or password')).pipe(delay(500));
-    }
-    return of(profile).pipe(
-      delay(500),
-      tap((user) => {
-        this.persistUser(user);
-      }),
-    );
-  }
+  // login(email: string, password: string): Observable<User> {
+  //   const storedPassword = this.credentialMap[email];
+  //   const profile = this.usersByEmail.get(email);
+  //   if (!profile || storedPassword !== password) {
+  //     return throwError(() => new Error('Invalid email or password')).pipe(delay(500));
+  //   }
+  //   return of(profile).pipe(
+  //     delay(500),
+  //     tap((user) => {
+  //       this.persistUser(user);
+  //     }),
+  //   );
+  // }
+login(email: string, password: string): Observable<any> {
+  return this.http.post<any>(
+    'http://192.168.1.12:8080/SwagBackendService/Users/LoginUser',
+    { email, password }
+  ).pipe(
+    tap((res) => {
+      const user = res?.data || res;
 
+      if (!user || !user.role) {
+        throw new Error('Invalid email or password');
+      }
+
+      this.userSubject.next(user);
+      this.storage?.setItem(this.storageKey, JSON.stringify(user));
+    })
+  );
+}
   logout(): void {
     this.userSubject.next(null);
     this.storage?.removeItem(this.storageKey);
