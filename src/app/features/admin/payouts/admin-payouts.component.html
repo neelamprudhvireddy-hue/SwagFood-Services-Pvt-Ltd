@@ -1,25 +1,54 @@
-﻿<section class="admin-section" *ngIf="payouts$ | async as payouts; else loading">
-  <header>
-    <div>
-      <p class="eyebrow">Payout Center</p>
-      <h1>Restaurant settlements</h1>
-    </div>
-    <button type="button">Download CSV</button>
-  </header>
+﻿<section *ngIf="data$ | async as data; else loading">
 
-  <div class="table">
-    <div class="table__head">
-      <span>Restaurant</span>
+  <h2>Restaurant Table Data</h2>
+
+  <!-- 🔍 SEARCH -->
+  <input
+    type="text"
+    placeholder="Search restaurant..."
+    (input)="onSearch($event.target.value)"
+    style="margin-bottom:10px; padding:5px; width:200px"
+  />
+
+  <!-- 🔽 SORT -->
+  <select (change)="onSort($event)" style="margin-left:10px">
+    <option value="name">Sort by Name</option>
+    <option value="orders">Sort by Orders</option>
+    <option value="amount">Sort by Amount</option>
+  </select>
+
+  <!-- TABLE -->
+  <div style="border:1px solid #ccc; margin-top:10px">
+
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; font-weight:bold; padding:10px; background:#f5f5f5">
+      <span>Name</span>
       <span>Orders</span>
-      <span>Amount due</span>
+      <span>Amount</span>
     </div>
-    <div class="table__row" *ngFor="let payout of payouts">
-      <span>{{ payout.restaurantName }}</span>
-      <span>{{ payout.orders }}</span>
-      <span>{{ payout.amountDue | currency: 'INR':'symbol':'1.0-0' }}</span>
+
+    <div *ngFor="let item of data.content"
+         style="display:grid; grid-template-columns:1fr 1fr 1fr; padding:10px; border-top:1px solid #eee">
+
+      <span>{{ item.name }}</span>
+      <span>{{ item.orders }}</span>
+      <span>{{ item.amount }}</span>
+
     </div>
   </div>
+
+  <!-- PAGINATION -->
+  <div style="margin-top:15px">
+    <button (click)="prevPage(data.number)">Prev</button>
+
+    <span style="margin:0 10px">
+      Page {{ data.number + 1 }} / {{ data.totalPages }}
+    </span>
+
+    <button (click)="nextPage(data.number, data.totalPages)">Next</button>
+  </div>
+
 </section>
+
 <ng-template #loading>
-  <p class="loading">Loading payouts...</p>
+  <p>Loading...</p>
 </ng-template>
