@@ -11,7 +11,7 @@
   />
 
   <!-- 🔽 SORT -->
-  <select (change)="onSort($event)" style="margin-left:10px">
+<select (change)="onSort($any($event.target).value)">
     <option value="name">Sort by Name</option>
     <option value="orders">Sort by Orders</option>
     <option value="amount">Sort by Amount</option>
@@ -26,10 +26,10 @@
       <span>Amount</span>
     </div>
 
-    <div *ngFor="let item of data.content"
+    <div *ngFor="let item of data.data">
          style="display:grid; grid-template-columns:1fr 1fr 1fr; padding:10px; border-top:1px solid #eee">
 
-      <span>{{ item.name }}</span>
+      <span>{{ item.restaurant }}</span>
       <span>{{ item.orders }}</span>
       <span>{{ item.amount }}</span>
 
