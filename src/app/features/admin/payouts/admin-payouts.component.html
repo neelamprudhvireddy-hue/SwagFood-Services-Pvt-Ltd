@@ -1,54 +1,43 @@
-﻿<section *ngIf="data$ | async as data; else loading">
+﻿<section *ngIf="!loading; else loadingTemplate" class="container">
+  <div class="header">
+    <h2>Restaurant Payouts</h2>
+    <div class="controls">
+      <input type="text" placeholder="Search restaurant..." (input)="onSearch($any($event.target).value)" />
+      <select (change)="onSort($any($event.target).value)">
+        <option value="restaurant">Sort by Name</option>
+        <option value="orders">Sort by Orders</option>
+        <option value="amount">Sort by Amount</option>
+      </select>
+    </div>
+  </div>
 
-  <h2>Restaurant Table Data</h2>
-
-  <!-- 🔍 SEARCH -->
-  <input
-    type="text"
-    placeholder="Search restaurant..."
-    (input)="onSearch($event.target.value)"
-    style="margin-bottom:10px; padding:5px; width:200px"
-  />
-
-  <!-- 🔽 SORT -->
-<select (change)="onSort($any($event.target).value)">
-    <option value="name">Sort by Name</option>
-    <option value="orders">Sort by Orders</option>
-    <option value="amount">Sort by Amount</option>
-  </select>
-
-  <!-- TABLE -->
-  <div style="border:1px solid #ccc; margin-top:10px">
-
-    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; font-weight:bold; padding:10px; background:#f5f5f5">
+  <div class="table-card">
+    <div class="table-header">
       <span>Name</span>
       <span>Orders</span>
       <span>Amount</span>
     </div>
 
-    <div *ngFor="let item of data.data">
-         style="display:grid; grid-template-columns:1fr 1fr 1fr; padding:10px; border-top:1px solid #eee">
-
-      <span>{{ item.restaurant }}</span>
-      <span>{{ item.orders }}</span>
-      <span>{{ item.amount }}</span>
-
+    <div *ngIf="payoutList.length > 0; else noData">
+      <div class="table-row" *ngFor="let item of payoutList">
+        <span>{{ item.restaurant }}</span>
+        <span>{{ item.orders }}</span>
+        <span class="amount">₹{{ item.amount }}</span>
+      </div>
     </div>
   </div>
 
-  <!-- PAGINATION -->
-  <div style="margin-top:15px">
-    <button (click)="prevPage(data.number)">Prev</button>
-
-    <span style="margin:0 10px">
-      Page {{ data.number + 1 }} / {{ data.totalPages }}
-    </span>
-
-    <button (click)="nextPage(data.number, data.totalPages)">Next</button>
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="!hasPrevious">Prev</button>
+    <span>Page {{ page }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="!hasNext">Next</button>
   </div>
-
 </section>
 
-<ng-template #loading>
-  <p>Loading...</p>
+<ng-template #loadingTemplate>
+  <div class="loading">Loading data...</div>
+</ng-template>
+
+<ng-template #noData>
+  <div class="no-data">No data found</div>
 </ng-template>

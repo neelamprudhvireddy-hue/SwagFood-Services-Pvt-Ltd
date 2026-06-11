@@ -156,3 +156,54 @@
     background: rgba(255, 255, 255, 0.08);
   }
 }
+.location {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: #fff;
+  border: 1px solid #eee;
+  width: fit-content;
+  cursor: pointer;
+  transition: all 0.25s ease;
+
+  &:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+    background: #fafafa;
+  }
+}
+
+.loc-icon {
+  font-size: 22px;
+  color: #ef4444; // red accent
+}
+
+.loc-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.label {
+  font-size: 11px;
+  color: #9ca3af;
+}
+
+.value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+}
+
+.refresh-icon {
+  margin-left: auto;
+  font-size: 18px;
+  color: #9ca3af;
+  transition: 0.3s ease;
+
+  &:hover {
+    color: #6366f1;
+    transform: rotate(180deg);
+  }
+}

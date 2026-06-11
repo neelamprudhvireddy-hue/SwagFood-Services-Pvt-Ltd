@@ -1,4 +1,4 @@
-<section class="cart-sidebar">
+<section class="cart-sidebar" *ngIf="isRoleBase">
   <div class="cart-sidebar__header">
     <h4>Live Cart</h4>
     <p *ngIf="(cartItems$ | async)?.length as count">{{ count }} items</p>

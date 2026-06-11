@@ -1,43 +1,74 @@
-.admin-section {
-  padding: 2rem;
-  border-radius: 16px;
-  background: #5b7db1;
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+.container {
+  max-width: 900px;
+  margin: 40px auto;
+  font-family: 'Inter', sans-serif;
+}
 
-  header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.25rem;
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h2 {
+    font-size: 22px;
+    font-weight: 600;
   }
 }
 
-.table {
+.controls {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  gap: 10px;
 
-  &__head,
-  &__row {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 0.75rem;
-    align-items: center;
-  }
+  input, select {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.2s;
 
-  &__head {
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    color: #05081c;
+    &:focus {
+      border-color: #6366f1;
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+    }
   }
+}
 
-  &__row {
-    padding: 0.75rem 1rem;
-    border-radius: 12px;
-    background: #839dd4;
+.table-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eee;
+}
+
+.table-header {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  background: #f9fafb;
+  padding: 12px 16px;
+  font-weight: 600;
+  color: #555;
+}
+
+.table-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding: 14px 16px;
+  transition: 0.2s;
+  border-top: 1px solid #f1f1f1;
+
+  &:hover {
+    background: #849af0;
   }
+}
+
+.amount {
+  font-weight: 600;
+  color: #16a34a;
 }
 
 .loading {
-  color: #94a3b8;
+  text-align: center;
+  margin-top: 50px;
+  color: #888;
 }

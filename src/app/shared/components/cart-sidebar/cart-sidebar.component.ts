@@ -13,6 +13,8 @@ import { CartService } from '@core/services/cart.service';
 export class CartSidebarComponent {
   readonly cartItems$;
   readonly total$;
+  userSubject: any;
+  isRoleBase: any;
 
   constructor(
     private readonly cartService: CartService,
@@ -37,4 +39,20 @@ export class CartSidebarComponent {
   checkout(): void {
     this.router.navigate(['/checkout']);
   }
+
+    
+ngOnInit() {
+  const storedUser = localStorage.getItem("swag-user");
+
+  if (storedUser) {
+    this.isRoleBase = JSON.parse(storedUser);
+
+    console.log("User role from localStorage:", this.isRoleBase);
+
+    if (this.isRoleBase.role === "ADMIN") {
+      this.isRoleBase=false;
+    }
+  }
+}
+
 }

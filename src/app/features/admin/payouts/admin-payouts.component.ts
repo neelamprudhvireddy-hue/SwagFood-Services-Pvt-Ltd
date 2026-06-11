@@ -1,62 +1,96 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
+import { Component, inject } from '@angular/core';
 import { HttpClient, HttpClientModule, HttpParams } from '@angular/common/http';
-import { BehaviorSubject, combineLatest, switchMap } from 'rxjs';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-admin-payouts',
   standalone: true,
-  imports: [AsyncPipe, NgForOf, NgIf, HttpClientModule],
+  imports: [HttpClientModule, CommonModule],
   templateUrl: './admin-payouts.component.html',
-  styleUrl: './admin-payouts.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./admin-payouts.component.scss']
 })
 export class AdminPayoutsComponent {
+
   private http = inject(HttpClient);
 
-  private page$ = new BehaviorSubject<number>(0);
-  private search$ = new BehaviorSubject<string>('');
-  private sort$ = new BehaviorSubject<string>('name');
-  private orderBy$ = new BehaviorSubject<string>('desc');
+  payoutList: any[] = [];
+  loading = false;
 
-  readonly data$ = combineLatest([this.page$, this.search$, this.sort$, this.orderBy$]).pipe(
-    switchMap(([page, search, sort, orderBy]) => {
-      let params = new HttpParams()
-        .set('page', page)
-        .set('size', 10)
-        .set('sortBy', sort)
-        .set('orderBy', orderBy);
+  page = 1;
+  size = 10;
+  sort = 'restaurant';
+  orderBy = 'desc';
+  search = '';
 
-      // if (search) {
-      //   params = params.set('search', search);
-      // }
-      // if (localStorage.getItem('role') === 'ADMIN') {
-      //   params = params.set('role', 'ADMIN');
-      // }
+  totalPages = 1;
+  hasNext = false;
+  hasPrevious = false;
 
-      return this.http.get<any>('http://192.168.1.12:8080/SwagBackendService/Users/PayoutTableData', { params });
-    })
-  );
+  searchTimeout: any;
 
-  nextPage(current: number, total: number) {
-    if (current < total - 1) {
-      this.page$.next(current + 1);
-    }
+  ngOnInit() {
+    this.loadData();
   }
 
-  prevPage(current: number) {
-    if (current > 0) {
-      this.page$.next(current - 1);
-    }
+  loadData() {
+    this.loading = true;
+
+    const payload = { search: this.search || '' };
+
+    const url = `http://192.168.1.12:8080/SwagBackendService/Users/PayoutTableData`;
+    const params = new HttpParams()
+      .set('page', this.page.toString())
+      .set('size', this.size.toString())
+      .set('sortBy', this.sort)
+      .set('orderBy', this.orderBy)
+      .set('_', Date.now().toString()); // prevent cache
+
+    this.http.post<any>(url, payload, { params }).subscribe({
+      next: (res) => {
+        // Response: content array + pagination metadata
+        this.payoutList = res.content || [];
+        this.totalPages = res.totalPages || 1;
+        this.hasNext = res.hasNext || false;
+        this.hasPrevious = res.hasPrevious || false;
+        this.page = res.currentPage || 1;
+        this.loading = false;
+      },
+      error: () => {
+        this.payoutList = [];
+        this.loading = false;
+      }
+    });
   }
 
+  // Debounced search
   onSearch(value: string) {
-    this.page$.next(0); // reset page
-    this.search$.next(value);
+    clearTimeout(this.searchTimeout);
+    this.searchTimeout = setTimeout(() => {
+      this.page = 1;
+      this.search = value;
+      this.loadData();
+    }, 300);
   }
 
-  onSort(value:any) {
-    this.page$.next(0); // reset page
-    this.sort$.next(value);
+  // Sorting
+  onSort(value: string) {
+    this.page = 1;
+    this.sort = value;
+    this.loadData();
+  }
+
+  // Pagination
+  nextPage() {
+    if (this.hasNext) {
+      this.page++;
+      this.loadData();
+    }
+  }
+
+  prevPage() {
+    if (this.hasPrevious) {
+      this.page--;
+      this.loadData();
+    }
   }
 }

@@ -5,13 +5,24 @@
       <span class="dot dot--pink"></span>
       <span class="navbar__title">SwagFood</span>
     </a>
-    <div class="navbar__location">
-      <span class="material-symbols-outlined">my_location</span>
-      <div>
-        <p class="label">Delivering to</p>
-        <p class="value">Hitech City, Hyderabad</p>
-      </div>
-    </div>
+  <div class="location" (click)="refreshLocation()">
+
+  <span class="material-symbols-outlined loc-icon">
+    location_on
+  </span>
+
+  <div class="loc-text">
+    <span class="label">Delivering to</span>
+    <span class="value">
+      {{ location$ | async }}
+    </span>
+  </div>
+
+  <span class="material-symbols-outlined refresh-icon">
+    refresh
+  </span>
+
+</div>
   </div>
 
   <ng-container *ngIf="user$ | async as user; else guestNav">
